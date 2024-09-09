@@ -206,6 +206,7 @@ function getRangedAttackDamage(id: StoreID, item: Item) {
   const dexAttackDamage = getFinalVariableValue(id, 'DEX_ATTACK_DAMAGE_BONUS').total;
   const strAttackDamage = getFinalVariableValue(id, 'STR_ATTACK_DAMAGE_BONUS').total;
   const rangedAttackDamage = getFinalVariableValue(id, 'RANGED_ATTACK_DAMAGE_BONUS').total;
+  const extraBonusDamage = item.meta_data?.foundry.bonus_damage ?? '';
 
   const hasThrown =
     hasTraitType('THROWN', itemTraits) ||
@@ -256,6 +257,10 @@ function getRangedAttackDamage(id: StoreID, item: Item) {
     parts.set('This is a bonus you receive to damage for ranged attacks.', rangedAttackDamage);
   }
 
+  if (extraBonusDamage) {
+    parts.set('This extra bonus damage comes from the item itself.', extraBonusDamage);
+  }
+
   // Weapon Specialization
   const profData = getProfTotal(id, item);
   const hasWeaponSpecialization = getVariable<VariableBool>(id, 'WEAPON_SPECIALIZATION')?.value ?? false;
@@ -291,6 +296,7 @@ function getMeleeAttackDamage(id: StoreID, item: Item) {
   const dexAttackDamage = getFinalVariableValue(id, 'DEX_ATTACK_DAMAGE_BONUS').total;
   const strAttackDamage = getFinalVariableValue(id, 'STR_ATTACK_DAMAGE_BONUS').total;
   const meleeAttackDamage = getFinalVariableValue(id, 'MELEE_ATTACK_DAMAGE_BONUS').total;
+  const extraBonusDamage = item.meta_data?.foundry.bonus_damage ?? '';
 
   const hasSplash = hasTraitType('SPLASH', itemTraits);
   const hasFinesse = hasTraitType('FINESSE', itemTraits);
@@ -343,6 +349,9 @@ function getMeleeAttackDamage(id: StoreID, item: Item) {
 
   if (meleeAttackDamage) {
     parts.set('This is a bonus you receive to damage for melee attacks.', meleeAttackDamage);
+  }
+  if (extraBonusDamage) {
+    parts.set('This extra bonus damage comes from the item itself.', extraBonusDamage);
   }
 
   // Weapon Specialization
